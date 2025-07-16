@@ -1,0 +1,22 @@
+{% extends 'shop/layouts/main.html' %}
+
+{% block title %}
+  Payment Successful | GadgetNestshop
+{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: 70px; min-height: 400px;">
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <h2 class="text-success"><i class="fa fa-check-circle"></i> Payment Successful</h2>
+      <p class="lead">Thank you for your purchase!</p>
+      <p>Your order has been placed successfully and is being processed.</p>
+      <a href="{% url 'collections' %}" class="btn btn-primary mt-3">Continue Shopping</a>
+      <p>Order ID: {{ order_id }}</p>
+      <p>Amount Paid:Rs.₹{{ amount }}</p>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

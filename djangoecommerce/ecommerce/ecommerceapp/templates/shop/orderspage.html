@@ -1,0 +1,71 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+  Order|GadgetNestshop
+{% endblock title %}
+{% block content %}
+<div class="section">
+    <div class="container" style="margin-top:70px; min-height:600px;">
+        <div class="section-title text-center">
+            <h3 class="title">Your Orders</h3>
+        </div>
+        {% if orderrs %}
+        <div class="row">
+            {% for item in orderrs %}
+            <div class="col-md-4 col-lg-3">
+                <div class="order-item card mb-4">
+                    <div class="card-body position-relative">
+                        <!-- Product Image -->
+                        <div class="order-image text-center mb-3">
+                            <img src="{{ item.product.product_image.url }}" alt="{{item.product.title}}" class="img-fluid" style="height: 150px;">
+                        </div>
+                        <!-- Product Title -->
+                        <h5 class="card-title text-center">
+                            {{item.product.name}}
+                        </h5>
+                        <!-- Product Price -->
+                        <p class="card-text text-center"  style="color:black;">
+                           Rs:&#8377; {{item.product.selling_price | stringformat:'d'}}
+                        </p> 
+                        <p class="card-text text-center">
+                            <strong>Quantity:</strong> {{item.product_qty}}
+                        </p>
+                        <!-- Order Status -->
+                        <p class="card-text text-center">
+                            <strong>Status:</strong> {{item.status}}
+                        </p>
+                        <!-- Name-->
+                        <p class="card-text text-center">
+                            <strong>Name:</strong> {{item.name}}
+                        </p>
+                        <!-- Address -->
+                        <p class="card-text text-center">
+                            <strong>Address:</strong> {{item.address}}
+                        </p>
+                        <!-- Phone Number -->
+                        <p class="card-text text-center">
+                            <strong>Mobile:</strong> {{item.mobile}}
+                        </p>
+                        <!-- Order Actions -->
+                        <div class="text-center">
+                            {% if item.status == 'Order Placed' or item.status == 'Order Shipped' %}
+                            <a href="{% url 'removeorder' item.id%}" class="btn btn-danger btn-sm mb-2" onclick="return confirm ('Are you sure you want to cancel this order?')">
+                               <i class="fa fa-trash"></i> Cancel Order
+                            </a>
+                            <a href="#" class="btn btn-success btn-sm mb-2">
+                                <i class="fa fa-map-marker"></i> Track Your Order
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+         {% else %}
+        <p class="text-center text-danger" style="font-size: 15px; font-weight: 600; margin-bottom: 200px;">
+            You have no orders!
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

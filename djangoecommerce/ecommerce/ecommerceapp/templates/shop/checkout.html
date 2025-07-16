@@ -1,0 +1,86 @@
+{% extends 'shop/layouts/main.html' %} 
+{% block title %}
+  Checkout | GadgetNestshop
+{% endblock title %}
+{% block content %}
+<div class="section">
+  <div class="container" style="margin-top:70px; min-height:600px;">
+    <!-- Order Summary Section -->
+    <div class="row mt-5"> 
+      {% for item in cart_items %}
+      <div class="col-md-4 col-lg-3">
+        <div class="order-item card mb-4">
+          <div class="card-body position-relative">
+            <div class="order-image text-center mb-3">
+              <img src="{{ item.product.product_image.url }}" alt="{{item.product.title}}" class="img-fluid" style="height: 150px;">
+            </div>
+            <h5 class="card-title text-center">{{item.product.name}}</h5>
+            <p class="card-text text-center" style="color:black;">
+              Rs:&#8377; {{item.product.selling_price|stringformat:'d'}}
+            </p> 
+            <p class="card-text text-center">
+              <strong>Quantity:</strong> {{item.product_qty}}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+     <div style="text-align: center; margin-top: 30px;">
+        <form id="razorpay-payment-form" action="{% url 'paymentsuccess' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+            <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+            <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+          </form>
+          <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+          <script>
+              const options = {
+                  "key": "{{ razorpay_key }}",
+                  "amount": "{{ payment.amount }}", // in paise
+                  "currency": "INR",
+                  "name": "GadgetNest",
+                  "description": "Test Transaction",
+                  "order_id": "{{ payment.id }}",
+                  "handler": function (response) {
+                      // Set values into hidden form fields
+                      document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+                      document.getElementById('razorpay_order_id').value = response.razorpay_order_id;
+                      document.getElementById('razorpay_signature').value = response.razorpay_signature;
+
+                      // Submit form to your Django view (session stays preserved)
+                      document.getElementById('razorpay-payment-form').submit();
+                  },
+                  "prefill": {
+                      "name": "{{ customer.name }}",
+                      "email": "{{ customer.email }}",
+                      "contact": "{{ customer.mobile }}"
+                  },
+                  "theme": {
+                      "color": "#007bff"
+                  },
+                  "method": {
+                      "upi": true,
+                      "card": true,
+                      "netbanking": true,
+                      "wallet": true,
+                      "paylater": true
+                  }
+              };
+
+              const rzp = new Razorpay(options);
+
+              // Auto-open the payment popup on page load
+              window.onload = function () {
+                  rzp.open();
+              };
+          </script>
+      </div>
+  </div>
+</div>
+{% endblock content %}
+
+
+ <!-- 4718 6091 0820 4366   axisbank -->
+ <!-- 5241 8100 0000 0000   Hdfcbank -->
+ 

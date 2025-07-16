@@ -1,0 +1,45 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+  Registration | GadgetNestshop
+{% endblock title %}
+{% block content %}
+<section class="bg-light py-4 my-5" style="min-height:600px;">
+  <div class="container">
+    <div class="section-title text-center">
+        <h3 class="title">Your Wishlist</h3>
+    </div>
+    <div class="row">
+        {% for item in fav %}
+        <div class="col-md-4 col-lg-3">
+            <div class="wishlist-item card mb-4">
+                <div class="card-body position-relative">
+                    <!-- Love Icon -->
+                    <a href="#" class="position-absolute top-0 end-0 p-2">
+                        <i class="fa fa-heart text-danger"></i>
+                    </a>
+                    <!-- Product Image -->
+                    <div class="wishlist-image text-center mb-3">
+                        <img src="{{item.product.product_image.url }}" alt="{{ item.product.name }}" height="150px">
+                    </div>
+                    <!-- Product Title -->
+                    <h5 class="card-title text-center">
+                        {{item.product.name}}
+                    </h5>
+                    <!-- Product Price -->
+                    <p class="card-text text-center text-black">
+                       Rs:&#8377;{{item.product.selling_price | stringformat:'d'}}
+                    </p>
+                    <!-- Add to Cart and Remove Buttons -->
+                    <div class="text-center">
+                        <a href="{% url 'productdetails' item.product.category.name item.product.name %}" class="btn btn-primary"><i class="fa fa-cart-plus"></i> Buy Now
+                        </a>
+                        <a href="{% url 'removefav' item.id %}" onclick="return confirm('Are you sure? to Remove')"  class="btn btn-danger"><i class="fa fa-trash"></i> Remove</a></td>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</section>
+{% endblock content %}

@@ -1,0 +1,118 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+ Billing Registration|GadgetNestshop
+{% endblock title %}
+{% block content %}
+<div class="section">
+      <!-- container -->
+      <div class="container" style="margin-top:70px; min-height:600px;">
+        <!-- row -->
+        <div class="row">
+          <div class="col-md-7">
+            <!-- Billing Details -->
+            <div class="billing-details">
+              <div class="section-title">
+                <h3 class="title">Billing Address</h3>
+              </div>
+              <hr>
+              <form action="{% url 'billingpage' %}" method="post" class="form-inline" autocomplete="off">
+                {% csrf_token %}
+              <div class="mb-3">
+                <input type="text" name="name" class="form-control" style="width:70%;" placeholder="Name" required>
+              </div>
+              <div class="mb-3">
+                <input  type="text" name="email" class="form-control" style="width:70%;" placeholder="Email" required>
+              </div>
+              <div class="mb-3">
+                <input type="text" name="address" class="form-control" style="width:70%;" placeholder="Address" required>
+              </div>
+              <div class="mb-3">
+                <input type="text" name="country" class="form-control" style="width:70%;" placeholder="Country" required>
+              </div>
+              <div class="mb-3">
+                <input  type="text" name="pincode" class="form-control" style="width:70%;" placeholder="Pin Code" required>
+              </div>
+              <div class="mb-3">
+                <input type="tel" name="mobile" class="form-control" style="width:70%;" placeholder="Mobile" required>
+              </div>
+            </div>
+            <!-- /Billing Details -->
+            <!-- Order notes -->
+            <div class="order-notes">
+              <textarea type="text" name="ordernotes"class="form-control" style="width:70%;" placeholder="Order Notes"></textarea>
+            </div>
+            <!-- /Order notes -->
+          </div>
+          <!-- Order Details -->
+          <div class="col-md-5 order-details">
+            <div class="section-title text-center">
+              <h3 class="title">Your Order</h3>
+            </div>
+            <div class="order-summary">
+              {% for item in cart_items %}
+               <div class="col-md-5 col-lg-12">
+                <div class="order-item card mb-4">
+                    <div class="card-body position-relative">
+                        <!-- Product Image -->
+                        <div class="order-image text-center mb-6">
+                            <img src="{{ item.product.product_image.url }}" alt="{{item.product.title}}" class="container-fluid justify-content-center"style="height: 250px; width:420px">
+                        </div>
+                        <br>
+                        <div class="order-col">
+                          <div><strong>Product</strong></div>
+                          <div style="flex: 1; text-align: center; margin-top: -25px;"> <strong>Price</strong></div>
+                          <div style="flex: 1;text-align: right; margin-top: -21px;"><strong>Quantity</strong></div>
+                        </div>
+                        <div class="order-products" style="display: flex; justify-content: space-between;" >
+                          <div style="flex: 1;">
+                            {% if item.product.name|length > 12 %}
+                              {{ item.product.name|slice:":12" }}...
+                            {% else %}
+                              {{ item.product.name }}
+                            {% endif %}
+                          </div>
+                          <div style="flex: 1; text-align: center;">
+                            Rs.&#8377; {{item.product.selling_price | stringformat:'d'}}
+                          </div>
+                          <div style="flex: 1; text-align: right;">
+                            {{item.product_qty}}
+                          </div>
+                        </div>
+                        <div class="order-col">
+                          <div style="flex: 1; margin-top: 21px;"><strong>Shipping</strong></div>
+                          <div style="flex: 1; text-align: right; margin-top: -21px;"><strong>FREE</strong></div>
+                        </div>
+                        <div class="order-col">
+                          <div><strong>Amount</strong></div>
+                          <div style="flex: 1; text-align: right; margin-top: -21px;"><strong class="order-total">Rs:&#8377; {{item.total_cost | stringformat:'d'}}</strong></div>
+                        </div> 
+                    </div>
+                  </div>
+                </div>
+             {% endfor %}
+             <br>
+              <div class="order-col">
+                <div><strong>Total Amount:</strong></div>
+                <div style="flex: 1; text-align: right; margin-top: -21px;"><strong class="order-total">Rs:&#8377;{{ total_amount| stringformat:'d' }} </strong></div>
+              </div>
+            </div>  
+            <br>
+            <div class="input-checkbox">
+              <input type="checkbox" id="terms">
+              <label for="terms">
+                <span></span>
+                I've read and accept the <a href="#">terms & conditions</a>
+              </label>
+            </div>
+            <br>
+            <button class="btn btn-primary">Place order</button>
+          </div>
+          <!-- /Order Details -->
+          </form>
+        </div>
+        <!-- /row -->
+      </div>
+      <!-- /container -->
+    </div>
+    <br>
+{% endblock content %}

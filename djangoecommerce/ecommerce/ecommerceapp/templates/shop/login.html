@@ -1,0 +1,41 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+  Registration | GadgetNestshop
+{% endblock title %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+      background: url("{% static 'images/images6.jpg' %}") no-repeat center center fixed;
+      background-size: cover;
+    }
+  </style>
+  <div class="container" style="margin-top:70px;min-height:600px;">
+    <div class="row">
+      <div class="col-12">
+        <h4 class="mb-3"> User Login</h4>
+        {% include 'shop/inc/message.html' %}
+      </div>
+    </div>
+    <section class="py-4" >
+      <div class="container">
+        <div class="row">
+          <div class="col-4">
+            <form method="post" action="" autocomplete="off">
+              {% csrf_token %}
+              <div class="mb-4">
+                <label for="" class="form-label">User Name</label>
+              <input type="text" name="username" id="username" class="form-control" placeholder="Enter User Name">
+              </div>
+              <div class="mb-4">
+                <label for="" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password">
+              </div>
+              <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock content %}
