@@ -24,11 +24,13 @@ SECRET_KEY = 'django-insecure-(p+9g+(w)4r%sbcx+gdguvi61%5vf)kb@(ph06#t(_qno!i6qw
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+ALLOWED_HOSTS = ['balajibalajik.pythonanywhere.com']
 ALLOWED_HOSTS = []
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 60 * 60 * 24  # 24 Hours
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Application definition
 
